@@ -2,18 +2,34 @@ const Parser = require('rss-parser');
 const { InlineKeyboard } = require('../buttons');
 
 module.exports.CallbackHandler = (bot) => {
+    this.processRss = async (ctx, sourceName, url) => {
+        let parser = new Parser();
+        let feed = await parser.parseURL(url);
+
+        let topicsToShow = feed.items.slice(0, process.env.TOPICS_PER_MESSAGE);
+
+        let messageText = topicsToShow.map(item => {
+            return `<b>${item.title}</b> - <a href="${item.link}">Подробнее</a>`;
+        });
+        messageText = messageText.join('\n');
+
+        await ctx.editMessageText(`Новости с ${sourceName}:\n\n${messageText}`, {
+            parse_mode: 'HTML',
+            reply_markup: InlineKeyboard.buttonBack()
+        });
+    };
     bot.action('rssList', async (ctx) => {
         await ctx.editMessageText('Выберите источник:', InlineKeyboard.buttonsSources());
     });
     bot.action('rssReddit', async (ctx) => {
-        let parser = new Parser();
-        let url = 'https://www.reddit.com/.rss';
-        let feed = await parser.parseURL(url);
-
-        let messageText = feed.items.map(item => {
-            return item.title + '\n\n';
-        });
-
-        await ctx.editMessageText('Новости с Reddit:\n\n' + messageText, InlineKeyboard.buttonBack());
+        await this.processRss(ctx, 'Reddit', 'https://www.reddit.com/.rss');
     });
+    bot.action('rssHabr', async (ctx) => {
+        await this.processRss(ctx, 'Habr', 'https://habr.com/ru/rss/articles/');
+    });
+    bot.action('rssBbc', async (ctx) => {
+        await this.processRss(ctx, 'Habr', 'https://feeds.bbci.co.uk/russian/rss.xml');
+    });
+
+    return this;
 };

@@ -8,12 +8,14 @@ module.exports.InlineKeyboard = {
     },
     buttonsSources: () => {
         return Markup.inlineKeyboard([
-            [Markup.button.callback('Reddit', 'rssReddit')]
+            [Markup.button.callback('Reddit', 'rssReddit')],
+            [Markup.button.callback('Habr', 'rssHabr')],
+            [Markup.button.callback('BBC Russian', 'rssBbc')]
         ]);
     },
     buttonBack: () => {
         return Markup.inlineKeyboard([
-            [Markup.button.callback('Назад', 'back')]
-        ]);
+            [Markup.button.callback('Назад', 'rssList')]
+        ]).reply_markup;
     }
 };
