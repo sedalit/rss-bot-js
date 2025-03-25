@@ -1,7 +1,8 @@
 const { InlineKeyboard } = require('../buttons');
+const answers = require('../answers.json');
 
 module.exports.CommandHandler = (bot) => {
     bot.start( async (ctx) => {
-        await ctx.replyWithHTML('Приветствую! Я - бот для чтения RSS ленты. Пожалуйста, откройте список RSS по кнопке ниже.', InlineKeyboard.buttonsStart());
+        await ctx.replyWithHTML(answers.start, InlineKeyboard.buttonsStart());
     });
 };

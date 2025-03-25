@@ -1,5 +1,6 @@
 const Parser = require('rss-parser');
 const { InlineKeyboard } = require('../buttons');
+const answers = require('../answers.json');
 
 module.exports.CallbackHandler = (bot) => {
     this.processRss = async (ctx, sourceName, url) => {
@@ -19,7 +20,7 @@ module.exports.CallbackHandler = (bot) => {
         });
     };
     bot.action('rssList', async (ctx) => {
-        await ctx.editMessageText('Выберите источник:', InlineKeyboard.buttonsSources());
+        await ctx.editMessageText(answers.rssList, InlineKeyboard.buttonsSources());
     });
     bot.action('rssReddit', async (ctx) => {
         await this.processRss(ctx, 'Reddit', 'https://www.reddit.com/.rss');
