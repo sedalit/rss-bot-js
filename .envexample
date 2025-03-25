@@ -1,1 +1,2 @@
 BOT_TOKEN="Telegram bot token"
+TOPICS_PER_MESSAGE=Number of topics to show per message
