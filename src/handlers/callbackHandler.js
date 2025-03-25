@@ -3,7 +3,7 @@ const { InlineKeyboard } = require('../buttons');
 const answers = require('../answers.json');
 
 module.exports.CallbackHandler = (bot) => {
-    this.processRss = async (ctx, sourceName, url) => {
+    this.processRss = async (ctx, sourceName, url, isCustomRss = false) => {
         let parser = new Parser();
         let feed = await parser.parseURL(url);
 
@@ -14,10 +14,17 @@ module.exports.CallbackHandler = (bot) => {
         });
         messageText = messageText.join('\n');
 
-        await ctx.editMessageText(`Новости с ${sourceName}:\n\n${messageText}`, {
+        let readyMessage = `Новости с ${sourceName}:\n\n${messageText}`;
+        let extra = {
             parse_mode: 'HTML',
             reply_markup: InlineKeyboard.buttonBack()
-        });
+        };
+
+        if (isCustomRss) {
+            await ctx.replyWithHTML(readyMessage, extra)
+        } else {
+            await ctx.editMessageText(readyMessage, extra);
+        }
     };
     bot.action('rssList', async (ctx) => {
         await ctx.editMessageText(answers.rssList, InlineKeyboard.buttonsSources());

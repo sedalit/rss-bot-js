@@ -7,7 +7,7 @@ module.exports.TextHandler = (bot) => {
         let message = ctx.message.text;
 
         try {
-            await CallbackHandler(bot).processRss(ctx, 'вашего источника', message);
+            await CallbackHandler(bot).processRss(ctx, 'вашего источника', message, true);
         } catch (error) {
             console.log(error);
             await ctx.replyWithHTML(answers.default, InlineKeyboard.buttonsStart());
