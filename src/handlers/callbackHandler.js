@@ -29,7 +29,7 @@ module.exports.CallbackHandler = (bot) => {
         await this.processRss(ctx, 'Habr', 'https://habr.com/ru/rss/articles/');
     });
     bot.action('rssBbc', async (ctx) => {
-        await this.processRss(ctx, 'Habr', 'https://feeds.bbci.co.uk/russian/rss.xml');
+        await this.processRss(ctx, 'BBC', 'https://feeds.bbci.co.uk/russian/rss.xml');
     });
 
     return this;
